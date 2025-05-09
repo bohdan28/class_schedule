@@ -1,5 +1,5 @@
 services:
-  app:
+  backend:
     build:
       context: .
       dockerfile: Dockerfile
@@ -7,48 +7,50 @@ services:
       - "8080:8080"
     depends_on:
       - redis
+      - postgres-db
+      - frontend
     environment:
-      DATABASE_URL: jdbc:postgresql://34.116.252.89:5432/class_schedule_db
+      DATABASE_URL: jdbc:postgresql://localhost:5432/class_schedule_db
       POSTGRES_DB: class_schedule_db
       POSTGRES_USER: class_schedule_dbuser
       POSTGRES_PASSWORD: Qazxcd123
       REDIS_ADDRESS: redis://redis:6379
-  #   networks:
-  #     - network1
+    networks:
+      - network1
 
   redis:
     image: redis:latest
     ports:
       - "6379:6379"
-  #   networks:
-  #     - network1
+    networks:
+      - network1
 
-  # pgdb:
-  #   image: postgres:15
-  #   container_name: postgres-db
-  #   environment:
-  #     POSTGRES_DB: pgdatabase
-  #     POSTGRES_USER: postgresuser
-  #     POSTGRES_PASSWORD: postgrespass
-  #   ports:
-  #     - "5432:5432"
-  #   volumes:
-  #     - db_data:/var/lib/postgresql/data
-  #   networks:
-  #     - network1
+  postgres-db:
+    image: postgres:15
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: class_schedule_db
+      POSTGRES_USER: class_schedule_dbuser
+      POSTGRES_PASSWORD: Qazxcd123
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - network1
 
-  # frontend:
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "3000:3000"
-  #   depends_on:
-  #     - app
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - app
 
-# volumes:
-#   db_data:
+volumes:
+  db_data:
 
-# networks:
-#   network1:
-#     driver: bridge
+networks:
+  network1:
+    driver: bridge
