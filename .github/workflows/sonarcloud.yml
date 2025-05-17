@@ -40,6 +40,7 @@ permissions:
 
 jobs:
   Analysis:
+    environment: 'deploy'
     runs-on: ubuntu-latest
 
     steps:
