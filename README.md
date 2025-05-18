@@ -1,3 +1,4 @@
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bohdan28_class_schedule&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=bohdan28_class_schedule)
 # Class Schedule
 
 This application is designed to display class schedules. It consists of a backend service and a frontend interface, both containerized using Docker.
