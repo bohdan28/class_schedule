@@ -12,14 +12,12 @@ jobs:
     steps:
 
     - name: code checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
-    - name: install the gcloud cli
-      uses: google-github-actions/setup-gcloud@v0
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v2'
       with:
-        project_id: devops-internrship
-        service_account_key: ${{ secrets.CREDENTIALS_JSON }}
-        export_default_credentials: true
+        credentials_json: '${{ secrets.CREDENTIALS_JSON }}'
 
     - name: build and push the docker image
       run: |
